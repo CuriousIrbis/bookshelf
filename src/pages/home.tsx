@@ -56,8 +56,12 @@ async function GetBooks(ev: React.MouseEvent<HTMLInputElement, MouseEvent>, text
 
         toast.success("Ура, данные пришли!", response.data.items);
         setBooks(response.data.items);
-    } catch (error: Error) {
-        const errorMsg: string = error.toString().split(': ')[1]
+    } catch (error: unknown) {
+        let errorMsg: string = ""
+        if(error instanceof Error){
+            errorMsg = error.toString().split(': ')[1]
+        }
+            
         toast.error(`Ошибка: ${errorMsg}`)
     }
 }
