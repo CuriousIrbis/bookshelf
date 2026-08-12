@@ -1,21 +1,23 @@
-// Import the functions you need from the SDKs you need
+// src/firebase.ts
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Собираем конфигурацию из безопасных переменных окружения
 const firebaseConfig = {
-  apiKey: "AIzaSyDlF6mhiYiGP-v3aA8V7t8WmO8LH4jD7uI",
-  authDomain: "bookshelf-4f573.firebaseapp.com",
-  projectId: "bookshelf-4f573",
-  storageBucket: "bookshelf-4f573.firebasestorage.app",
-  messagingSenderId: "595019564221",
-  appId: "1:595019564221:web:fb6393a302c93ae14123d4",
-  measurementId: "G-BYQHJGSBGY"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Инициализируем приложение Firebase
+const FBapp = initializeApp(firebaseConfig);
+
+// Экспортируем готовые сервисы для использования в компонентах React
+export const auth = getAuth(FBapp); // Сервис авторизации
+export const db = getFirestore(FBapp); // Облачная база данных Firestore
+
+export default FBapp;
